@@ -2,65 +2,238 @@
 
 Level::Level(int level)
 {
+    int blocs_count;
+    inBig = -1;
+    inSmall = -1;
+
     switch(level)
     {
+    case 1:
+        steps = 10;
+        rows = 3;
+        cols = 3;
+        blocs_count = 3;
+        blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
+        blocs[1][0] = 1;    blocs[1][1] = 0;    blocs[1][2] = SMALL_TOP;
+        blocs[2][0] = 1;    blocs[2][1] = 2;    blocs[2][2] = BIG_LEFT;
+        break;
+    case 2:
+        steps = 10;
+        rows = 3;
+        cols = 3;
+        blocs_count = 3;
+        blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
+        blocs[1][0] = 1;    blocs[1][1] = 2;    blocs[1][2] = SMALL_LEFT;
+        blocs[2][0] = 1;    blocs[2][1] = 0;    blocs[2][2] = BIG_TOP;
+        break;
+    case 3:
+        steps = 10;
+        rows = 3;
+        cols = 3;
+        blocs_count = 4;
+        blocs[0][0] = 0;    blocs[0][1] = 0;    blocs[0][2] = BALL;
+        blocs[1][0] = 2;    blocs[1][1] = 0;    blocs[1][2] = SMALL_TOP;
+        blocs[2][0] = 1;    blocs[2][1] = 1;    blocs[2][2] = BIG_TOP;
+        blocs[3][0] = 0;    blocs[3][1] = 2;    blocs[3][2] = BIG_LEFT;
+        break;
     case 10:
         steps = 50;
         rows = 5;
         cols = 5;
+        blocs_count = 11;
         blocs[0][0] = 4;    blocs[0][1] = 2;    blocs[0][2] = BALL;
-        blocs[1][0] = 2;    blocs[1][1] = 1;    blocs[1][2] = RED_LEFT;
-        blocs[2][0] = 2;    blocs[2][1] = 0;    blocs[2][2] = BLUE_TOP;
+        blocs[1][0] = 2;    blocs[1][1] = 1;    blocs[1][2] = SMALL_LEFT;
+        blocs[2][0] = 2;    blocs[2][1] = 0;    blocs[2][2] = BIG_TOP;
         blocs[3][0] = 1;    blocs[3][1] = 2;    blocs[3][2] = WALL;
         blocs[4][0] = 1;    blocs[4][1] = 4;    blocs[4][2] = WALL;
         blocs[5][0] = 3;    blocs[5][1] = 1;    blocs[5][2] = WALL;
         blocs[6][0] = 1;    blocs[6][1] = 0;    blocs[6][2] = BIG_RIGHT;
         blocs[7][0] = 1;    blocs[7][1] = 1;    blocs[7][2] = SMALL_TOP;
         blocs[8][0] = 3;    blocs[8][1] = 2;    blocs[8][2] = BIG_BOTTOM;
-        blocs[9][0] = 3;    blocs[10][1] = 3;   blocs[9][2] = WALL;
+        blocs[9][0] = 3;    blocs[9][1] = 3;    blocs[9][2] = WALL;
         blocs[10][0] = 3;   blocs[10][1] = 4;   blocs[10][2] = BIG_TOP;
         break;
+    }
+    for(int i = blocs_count; i < 20; ++i)
+    {
+        blocs[i][0] = -1;   blocs[i][1] = -1;   blocs[i][2] = 0;
     }
 }
 
 bool Level::move(Direction direction)
 {
+    bool result = false;
+
     switch(direction)
     {
     case UP:
-        if(chkDirection(blocs[0][0] - 1, blocs[0][1]))
+        if(chkDirection(blocs[0][0] - 1, blocs[0][1], UP))
+        {
             blocs[0][0] = --blocs[0][0];
-        return true;
+
+            if(inSmall != -1)
+            {
+                if(blocs[inSmall][2] == SMALL_TOP && inBig == -1)
+                    inSmall = -1;
+                else
+                    blocs[inSmall][0] = blocs[0][0];
+            }
+
+            if(inBig != -1)
+            {
+                if(blocs[inBig][2] == BIG_TOP)
+                    inBig = -1;
+                else
+                    blocs[inBig][0] = blocs[0][0];
+            }
+
+            result = true;
+        }
+        break;
     case RIGHT:
-        if(chkDirection(blocs[0][0], blocs[0][1] + 1))
+        if(chkDirection(blocs[0][0], blocs[0][1] + 1, RIGHT))
+        {
             blocs[0][1] = ++blocs[0][1];
-        return true;
+
+            if(inSmall != -1)
+            {
+                if(blocs[inSmall][2] == SMALL_RIGHT && inBig == -1)
+                    inSmall = -1;
+                else
+                    blocs[inSmall][1] = blocs[0][1];
+            }
+
+            if(inBig != -1)
+            {
+                if(blocs[inBig][2] == BIG_RIGHT)
+                    inBig = -1;
+                else
+                    blocs[inBig][1] = blocs[0][1];
+            }
+
+            result = true;
+        }
+        break;
     case DOWN:
-        if(chkDirection(blocs[0][0] + 1, blocs[0][1]))
+        if(chkDirection(blocs[0][0] + 1, blocs[0][1], DOWN))
+        {
             blocs[0][0] = ++blocs[0][0];
-        return true;
+
+            if(inSmall != -1)
+            {
+                if(blocs[inSmall][2] == SMALL_BOTTOM && inBig == -1)
+                    inSmall = -1;
+                else
+                    blocs[inSmall][0] = blocs[0][0];
+            }
+
+            if(inBig != -1)
+            {
+                if(blocs[inBig][2] == BIG_BOTTOM)
+                    inBig = -1;
+                else
+                    blocs[inBig][0] = blocs[0][0];
+            }
+
+            result = true;
+        }
+        break;
     case LEFT:
-        if(chkDirection(blocs[0][0], blocs[0][1] - 1))
+        if(chkDirection(blocs[0][0], blocs[0][1] - 1, LEFT))
+        {
             blocs[0][1] = --blocs[0][1];
-        return true;
+
+            if(inSmall != -1)
+            {
+                if(blocs[inSmall][2] == SMALL_LEFT && inBig == -1)
+                    inSmall = -1;
+                else
+                    blocs[inSmall][1] = blocs[0][1];
+            }
+
+            if(inBig != -1)
+            {
+                if(blocs[inBig][2] == BIG_LEFT)
+                    inBig = -1;
+                else
+                    blocs[inBig][1] = blocs[0][1];
+            }
+
+            result = true;
+        }
+        break;
     }
 
-    return false;
+    return result;
 }
 
-bool Level::chkDirection(int newRow, int newCol)
+bool Level::chkDirection(int newRow, int newCol, Direction direction)
 {
     // проверка выхода а предела карты
     if(newRow >= rows || newCol >= cols || newRow < 0 || newCol < 0)
         return false;
 
-    // проверка столкновения со стеной
     for(int i = 0; i < 20; ++i)
     {
-        if(blocs[i][0] == newRow && blocs[i][1] == newCol && blocs[i][2] == WALL)
-            return false;
+        // проверка столкновения со стеной
+        if(blocs[i][0] == newRow && blocs[i][1] == newCol)
+        {
+            if(blocs[i][2] == WALL)
+                return false;
+
+            switch(direction)
+            {
+            case UP:
+                if(blocs[i][2] != BIG_BOTTOM && blocs[i][2] != SMALL_BOTTOM)
+                    return false;
+                if(inBig != -1 && blocs[inBig][2] != BIG_TOP)
+                    return false;
+                if(inSmall != -1 && blocs[i][2] != BIG_BOTTOM && blocs[inSmall][2] != SMALL_TOP)
+                    return false;
+                break;
+            case RIGHT:
+                if(blocs[i][2] != BIG_LEFT && blocs[i][2] != SMALL_LEFT)
+                    return false;
+                if(inBig != -1 && blocs[inBig][2] != BIG_RIGHT)
+                    return false;
+                if(inSmall != -1 && blocs[i][2] != BIG_LEFT && blocs[inSmall][2] != SMALL_RIGHT)
+                    return false;
+                break;
+            case DOWN:
+                if(blocs[i][2] != BIG_TOP && blocs[i][2] != SMALL_TOP)
+                    return false;
+                if(inBig != -1 && blocs[inBig][2] != BIG_BOTTOM)
+                    return false;
+                if(inSmall != -1 && blocs[i][2] != BIG_TOP && blocs[inSmall][2] != SMALL_BOTTOM)
+                    return false;
+                break;
+            case LEFT:
+                if(blocs[i][2] != BIG_RIGHT && blocs[i][2] != SMALL_RIGHT)
+                    return false;
+                if(inBig != -1 && blocs[inBig][2] != BIG_LEFT)
+                    return false;
+                if(inSmall != -1 && blocs[i][2] != BIG_RIGHT && blocs[inSmall][2] != SMALL_LEFT)
+                    return false;
+                break;
+            }
+
+            if(blocs[i][2] == BIG_TOP || blocs[i][2] == BIG_RIGHT || blocs[i][2] == BIG_BOTTOM || blocs[i][2] == BIG_LEFT)
+                inBig = i;
+
+            if(blocs[i][2] == SMALL_TOP || blocs[i][2] == SMALL_RIGHT || blocs[i][2] == SMALL_BOTTOM || blocs[i][2] == SMALL_LEFT)
+                inSmall = i;
+        }
     }
     return true;
+}
+
+bool Level::isFinished()
+{
+    if(blocs[0][0] == blocs[1][0] && blocs[0][0] == blocs[2][0] &&
+       blocs[0][1] == blocs[1][1] && blocs[0][1] == blocs[2][1])
+        return true;
+
+    return false;
 }
 
 

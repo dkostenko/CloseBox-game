@@ -20,14 +20,8 @@ public:
     ~Dialog();
 
 private:
-    enum BlocTypes { BALL, WALL,
-                 RED_TOP, RED_RIGHT, RED_BOTTOM, RED_LEFT,
-                 BLUE_TOP, BLUE_RIGHT, BLUE_BOTTOM, BLUE_LEFT,
-                 BIG_TOP, BIG_RIGHT, BIG_BOTTOM, BIG_LEFT,
-                 SMALL_TOP, SMALL_RIGHT, SMALL_BOTTOM, SMALL_LEFT };
-
+    int currentLvl;
     Level * lvl;
-
     Ui::Dialog *ui;
     QGraphicsScene *scene;
     QGraphicsRectItem *rectangle;

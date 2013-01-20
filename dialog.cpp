@@ -8,14 +8,13 @@ Dialog::Dialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    lvl = new Level(10);
+    currentLvl = 1;
+    lvl = new Level(currentLvl);
     scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
+
     ui->currentLvl->setText("Уровень: 10");
-
     ui->leftSteps->setText("Осталось шагов: " + lvl->getSteps());
-
-    qDebug() << lvl->getCols();
 
     ui->graphicsView->setEnabled(false);
 }
@@ -54,16 +53,16 @@ void Dialog::drawBigBox(int row, int col, int type, bool main)
 
     pen.setWidth(6);
 
-    if(type != 1)
+    if(type != 2)
         scene->addLine(col * 100 + 10, row * 100 + 10, col * 100 + 90, row * 100 + 10, pen);
 
-    if(type != 2)
+    if(type != 3)
         scene->addLine(col * 100 + 90, row * 100 + 90, col * 100 + 90, row * 100 + 10, pen);
 
-    if(type != 3)
+    if(type != 4)
         scene->addLine(col * 100 + 90, row * 100 + 90, col * 100 + 10, row * 100 + 90, pen);
 
-    if(type != 4)
+    if(type != 5)
         scene->addLine(col * 100 + 10, row * 100 + 10, col * 100 + 10, row * 100 + 90, pen);
 }
 
@@ -78,16 +77,16 @@ void Dialog::drawSmallBox(int row, int col, int type, bool main)
 
     pen.setWidth(3);
 
-    if(type != 1)
+    if(type != 6)
         scene->addLine(col * 100 + 20, row * 100 + 20, col * 100 + 80, row * 100 + 20, pen);
 
-    if(type != 2)
+    if(type != 7)
         scene->addLine(col * 100 + 80, row * 100 + 80, col * 100 + 80, row * 100 + 20, pen);
 
-    if(type != 3)
+    if(type != 8)
         scene->addLine(col * 100 + 80, row * 100 + 80, col * 100 + 20, row * 100 + 80, pen);
 
-    if(type != 4)
+    if(type != 9)
         scene->addLine(col * 100 + 20, row * 100 + 20, col * 100 + 20, row * 100 + 80, pen);
 }
 
@@ -118,77 +117,45 @@ void Dialog::keyPressEvent(QKeyEvent *e)
         break;
     }
 
-    this->repaint();
+    if(isMoved)
+    {
+        if(lvl->isFinished())
+        {
+            qDebug() << "ВЫИГРАЛ!";
+            lvl = new Level(++currentLvl);
+        }
+        this->repaint();
+    }
 }
 
 void Dialog::paintEvent(QPaintEvent *e)
 {
     scene->clear();
 
-    for(int i = 0; i < 11; ++i)
+    drawBall(lvl->getBloc(0, 0), lvl->getBloc(0, 1));
+    drawSmallBox(lvl->getBloc(1, 0), lvl->getBloc(1, 1), lvl->getBloc(1, 2), true);
+    drawBigBox(lvl->getBloc(2, 0), lvl->getBloc(2, 1), lvl->getBloc(2, 2), true);
+
+    for(int i = 3; i < 12; ++i)
     {
-        switch(lvl->getBloc(i, 2))
+        if(lvl->getBloc(i, 2) == lvl->WALL)
         {
-        case BALL:
-            drawBall(lvl->getBloc(i, 0), lvl->getBloc(i, 1));
-            break;
-        case WALL:
             drawWall(lvl->getBloc(i, 0), lvl->getBloc(i, 1));
-            break;
+            continue;
+        }
 
-        case RED_TOP:
-            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 1, true);
-            break;
-        case RED_RIGHT:
-            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 2, true);
-            break;
-        case RED_BOTTOM:
-            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 3, true);
-            break;
-        case RED_LEFT:
-            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 4, true);
-            break;
+        if(lvl->getBloc(i, 2) == lvl->BIG_TOP || lvl->getBloc(i, 2) == lvl->BIG_RIGHT || lvl->getBloc(i, 2) == lvl->BIG_BOTTOM || lvl->getBloc(i, 2) == lvl->BIG_LEFT)
+        {
+            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), lvl->getBloc(i, 2), false);
+            continue;
+        }
 
-        case BLUE_TOP:
-            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 1, true);
-            break;
-        case BLUE_RIGHT:
-            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 2, true);
-            break;
-        case BLUE_BOTTOM:
-            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 3, true);
-            break;
-        case BLUE_LEFT:
-            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 4, true);
-            break;
-
-        case BIG_TOP:
-            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 1, false);
-            break;
-        case BIG_RIGHT:
-            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 2, false);
-            break;
-        case BIG_BOTTOM:
-            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 3, false);
-            break;
-        case BIG_LEFT:
-            drawBigBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 4, false);
-            break;
-
-        case SMALL_TOP:
-            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 1, false);
-            break;
-        case SMALL_RIGHT:
-            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 2, false);
-            break;
-        case SMALL_BOTTOM:
-            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 3, false);
-            break;
-        case SMALL_LEFT:
-            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), 4, false);
-            break;
+        if(lvl->getBloc(i, 2) == lvl->SMALL_TOP || lvl->getBloc(i, 2) == lvl->SMALL_RIGHT || lvl->getBloc(i, 2) == lvl->SMALL_BOTTOM || lvl->getBloc(i, 2) == lvl->SMALL_LEFT)
+        {
+            drawSmallBox(lvl->getBloc(i, 0), lvl->getBloc(i, 1), lvl->getBloc(i, 2), false);
+            continue;
         }
     }
 
-    drawGrid(5, 5);
+    drawGrid(lvl->getRows(), lvl->getCols());
 }
