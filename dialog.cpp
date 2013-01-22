@@ -180,8 +180,8 @@ void Dialog::keyPressEvent(QKeyEvent *e)
         case PAUSED:
             changeState(RUN);
             break;
-        break;
         }
+        break;
     }
 
     if(isMoved)

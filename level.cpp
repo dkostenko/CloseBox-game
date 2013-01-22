@@ -29,6 +29,21 @@ bool Level::setCurrentMap()
         blocs[2][0] = 1;    blocs[2][1] = 2;    blocs[2][2] = BIG_LEFT;
         break;
     case 2:
+        rows = 4;
+        cols = 4;
+        time = 80;
+        blocs_count = 9;
+        blocs[0][0] = 0;    blocs[0][1] = 3;    blocs[0][2] = BALL;
+        blocs[1][0] = 1;    blocs[1][1] = 1;    blocs[1][2] = SMALL_LEFT;
+        blocs[2][0] = 2;    blocs[2][1] = 0;    blocs[2][2] = BIG_BOTTOM;
+        blocs[3][0] = 0;    blocs[3][1] = 1;    blocs[3][2] = BIG_BOTTOM;
+        blocs[4][0] = 1;    blocs[4][1] = 2;    blocs[4][2] = SMALL_TOP;
+        blocs[5][0] = 2;    blocs[5][1] = 1;    blocs[5][2] = SMALL_TOP;
+        blocs[6][0] = 2;    blocs[6][1] = 2;    blocs[6][2] = SMALL_RIGHT;
+        blocs[7][0] = 1;    blocs[7][1] = 3;    blocs[7][2] = BIG_LEFT;
+        blocs[8][0] = 3;    blocs[8][1] = 2;    blocs[8][2] = BIG_TOP;
+        break;
+    case 6:
         rows = 3;
         cols = 3;
         time = 20;
@@ -37,10 +52,10 @@ bool Level::setCurrentMap()
         blocs[1][0] = 1;    blocs[1][1] = 2;    blocs[1][2] = SMALL_LEFT;
         blocs[2][0] = 1;    blocs[2][1] = 0;    blocs[2][2] = BIG_TOP;
         break;
-    case 30:
+    case 3:
         rows = 3;
         cols = 3;
-        time = 100;
+        time = 40;
         blocs_count = 4;
         blocs[0][0] = 0;    blocs[0][1] = 0;    blocs[0][2] = BALL;
         blocs[1][0] = 2;    blocs[1][1] = 0;    blocs[1][2] = SMALL_TOP;
@@ -50,13 +65,26 @@ bool Level::setCurrentMap()
     case 4:
         rows = 3;
         cols = 3;
-        time = 100;
+        time = 60;
         blocs_count = 5;
         blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
         blocs[1][0] = 1;    blocs[1][1] = 0;    blocs[1][2] = SMALL_RIGHT;
         blocs[2][0] = 1;    blocs[2][1] = 2;    blocs[2][2] = BIG_BOTTOM;
         blocs[3][0] = 0;    blocs[3][1] = 1;    blocs[3][2] = BIG_BOTTOM;
         blocs[3][0] = 2;    blocs[3][1] = 1;    blocs[3][2] = BIG_TOP;
+        break;
+    case 5:
+        rows = 4;
+        cols = 4;
+        time = 80;
+        blocs_count = 7;
+        blocs[0][0] = 0;    blocs[0][1] = 2;    blocs[0][2] = BALL;
+        blocs[1][0] = 1;    blocs[1][1] = 2;    blocs[1][2] = SMALL_RIGHT;
+        blocs[2][0] = 0;    blocs[2][1] = 3;    blocs[2][2] = BIG_BOTTOM;
+        blocs[3][0] = 3;    blocs[3][1] = 0;    blocs[3][2] = BIG_TOP;
+        blocs[4][0] = 2;    blocs[4][1] = 1;    blocs[4][2] = SMALL_LEFT;
+        blocs[5][0] = 1;    blocs[5][1] = 1;    blocs[5][2] = WALL;
+        blocs[6][0] = 2;    blocs[6][1] = 2;    blocs[6][2] = WALL;
         break;
     case 10:
         rows = 5;
@@ -194,13 +222,13 @@ bool Level::move(Direction direction)
 
 bool Level::chkDirection(int newRow, int newCol, Direction direction)
 {
-    // проверка выхода а предела карты
+    // check leaves the map
     if(newRow >= rows || newCol >= cols || newRow < 0 || newCol < 0)
         return false;
 
     for(int i = 0; i < 20; ++i)
     {
-        // проверка столкновения со стеной
+        // check for collisions with the wall
         if(blocs[i][0] == newRow && blocs[i][1] == newCol)
         {
             if(blocs[i][2] == WALL)
