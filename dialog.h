@@ -5,6 +5,7 @@
 #include <QtCore>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QtGui>
 #include <level.h>
 
 namespace Ui {
@@ -27,6 +28,7 @@ private slots:
     void on_startGame_clicked();
 
 private:
+
     enum State { INSTRUCTION, RUN, PAUSED, GAME_FINISHED, GAME_LOST };
     State currentState;
     Level * lvl;

@@ -1,6 +1,5 @@
 #include "dialog.h"
 #include "ui_dialog.h"
-#include "scene.h"
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -41,6 +40,7 @@ void Dialog::changeState(State state)
         ui->timeCount->setVisible(false);
         break;
     case RUN:
+        ui->instruction->setVisible(false);
         ui->graphicsView->setVisible(true);
         ui->startGame->setVisible(false);
         ui->info->setVisible(false);
@@ -48,21 +48,21 @@ void Dialog::changeState(State state)
         ui->timeCount->setVisible(true);
         break;
     case PAUSED:
-        ui->info->setText("Пауза");
+        ui->info->setText("<html><head/><body><p align='center'>Pause</p></body></html>");
         ui->graphicsView->setVisible(false);
         ui->info->setVisible(true);
         ui->currentLvl->setVisible(false);
         ui->timeCount->setVisible(false);
         break;
     case GAME_FINISHED:
-        ui->info->setText("Вы победили!");
+        ui->info->setText("<html><head/><body><p align='center'>You are winner!</p></body></html>");
         ui->graphicsView->setVisible(false);
         ui->info->setVisible(true);
         ui->currentLvl->setVisible(false);
         ui->timeCount->setVisible(false);
         break;
-    case GAME_LOST:
-        ui->info->setText("Вы проиграли!");
+    case GAME_LOST:        
+        ui->info->setText("<html><head/><body><p align='center'>You are loser!</p></body></html>");
         ui->graphicsView->setVisible(false);
         ui->info->setVisible(true);
         ui->currentLvl->setVisible(false);
@@ -84,11 +84,11 @@ void Dialog::drawGrid(int rows, int cols)
 {
     QPen blackpen(Qt::black);
 
-    // вертикальные линии
+    // vertical lines
     for(int i = 0; i <= cols; ++i)
         scene->addLine(i*100, 0, i*100, rows*100, blackpen);
 
-    // горизонтальные линии
+    // horizontal lines
     for(int i = 0; i <= rows; ++i)
         scene->addLine(0, i*100, cols*100, i*100, blackpen);
 }

@@ -265,14 +265,14 @@ QString Level::getTimerText()
 {
     QString q;
     q.setNum(--time);
-    return "Осталось: " + q + " сек.";
+    return q + " sec. left";
 }
 
 QString Level::getCurrentLevelText()
 {
     QString q;
     q.setNum(currentLevel);
-    return "Уровень: " + q;
+    return "Level: " + q;
 }
 
 

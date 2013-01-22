@@ -25,68 +25,89 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QGraphicsView" name="graphicsView">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>100</y>
-     <width>503</width>
-     <height>503</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="currentLvl">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>40</y>
-     <width>161</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="timeCount">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>40</y>
-     <width>141</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="startGame">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>70</y>
-     <width>114</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Начать игру</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="info">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>300</y>
-     <width>111</width>
+     <x>0</x>
+     <y>240</y>
+     <width>521</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Пауза</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Pause&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
+  <widget class="QLabel" name="instruction">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>240</y>
+     <width>521</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Put the red box in the blue box.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Use arrow keys.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>501</width>
+     <height>591</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="currentLvl">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="timeCount">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item alignment="Qt::AlignTop">
+       <widget class="QPushButton" name="startGame">
+        <property name="text">
+         <string>Start game</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="styleSheet">
+       <string notr="true">border: 0;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <zorder>graphicsView</zorder>
+  <zorder>currentLvl</zorder>
+  <zorder>timeCount</zorder>
+  <zorder>startGame</zorder>
+  <zorder>instruction</zorder>
+  <zorder>info</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

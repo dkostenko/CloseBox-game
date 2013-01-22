@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by Qt Creator 2.6.1, 2013-01-22T18:39:28. -->
+<!-- Written by Qt Creator 2.6.1, 2013-01-23T01:56:31. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -207,7 +207,7 @@
     </valuelist>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">CloseBox</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QByteArray" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/macbook/Projects/CloseBox/sourse/CloseBox.pro</value>
+    <value type="QByteArray" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/macbook/Projects/CloseBox/source/CloseBox.pro</value>
     <value type="int" key="Qt4ProjectManager.Qt4RunConfiguration.BaseEnvironmentBase">2</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">CloseBox.pro</value>
