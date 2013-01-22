@@ -45,24 +45,67 @@
     </rect>
    </property>
    <property name="text">
-    <string>Раунд:</string>
+    <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="leftSteps">
+  <widget class="QLabel" name="timeCount">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>240</x>
      <y>40</y>
-     <width>161</width>
+     <width>141</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Осталось шагов:</string>
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="startGame">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>70</y>
+     <width>114</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Начать игру</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="info">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>300</y>
+     <width>62</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Пауза</string>
    </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>startGame</sender>
+   <signal>clicked()</signal>
+   <receiver>graphicsView</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>234</x>
+     <y>87</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

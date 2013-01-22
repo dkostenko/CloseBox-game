@@ -7,21 +7,72 @@ Dialog::Dialog(QWidget *parent) :
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+    timer = new QTimer(this);
 
+    connect(timer, SIGNAL(timeout()), this, SLOT(Tic()));
+
+    timer->start(1000);
     currentLvl = 1;
     lvl = new Level(currentLvl);
     scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
 
-    ui->currentLvl->setText("Уровень: 10");
-    ui->leftSteps->setText("Осталось шагов: " + lvl->getSteps());
+    QString q;
+    q.setNum(currentLvl);
+    ui->currentLvl->setText("Уровень: " + q);
+    ui->timeCount->setText(lvl->getTimerText());
 
-    ui->graphicsView->setEnabled(false);
+    changeState(INSTRUCTION);
 }
 
 Dialog::~Dialog()
 {
     delete ui;
+}
+
+void Dialog::changeState(State state)
+{
+    currentState = state;
+
+    switch(state)
+    {
+    case INSTRUCTION:
+        ui->graphicsView->setEnabled(false);
+        ui->graphicsView->setVisible(false);
+        ui->info->setVisible(false);
+        ui->currentLvl->setVisible(false);
+        ui->timeCount->setVisible(false);
+        break;
+    case RUN:
+        ui->graphicsView->setVisible(true);
+        ui->startGame->setVisible(false);
+        ui->info->setVisible(false);
+        ui->currentLvl->setVisible(true);
+        ui->timeCount->setVisible(true);
+        break;
+    case PAUSED:
+        ui->info->setText("Пауза");
+        ui->graphicsView->setVisible(false);
+        ui->info->setVisible(true);
+        ui->currentLvl->setVisible(false);
+        ui->timeCount->setVisible(false);
+        break;
+    }
+}
+
+void Dialog::Tic()
+{
+    if(currentState == RUN)
+    {
+        if(lvl->getTime() < 0)
+        {
+            //проиграл
+        }
+        else
+        {
+           ui->timeCount->setText(lvl->getTimerText());
+        }
+    }
 }
 
 void Dialog::drawGrid(int rows, int cols)
@@ -104,17 +155,28 @@ void Dialog::keyPressEvent(QKeyEvent *e)
     switch(e->key())
     {
     case Qt::Key_Up:
-        isMoved = lvl->move(lvl->UP);
+        if(currentState == RUN) isMoved = lvl->move(lvl->UP);
         break;
     case Qt::Key_Right:
-        isMoved = lvl->move(lvl->RIGHT);
+        if(currentState == RUN) isMoved = lvl->move(lvl->RIGHT);
         break;
     case Qt::Key_Down:
-        isMoved = lvl->move(lvl->DOWN);
+        if(currentState == RUN) isMoved = lvl->move(lvl->DOWN);
         break;
     case Qt::Key_Left:
-        isMoved = lvl->move(lvl->LEFT);
+        if(currentState == RUN) isMoved = lvl->move(lvl->LEFT);
         break;
+    case Qt::Key_Space:
+        switch (currentState)
+        {
+        case RUN:
+            changeState(PAUSED);
+            break;
+        case PAUSED:
+            changeState(RUN);
+            break;
+        break;
+        }
     }
 
     if(isMoved)
@@ -128,7 +190,7 @@ void Dialog::keyPressEvent(QKeyEvent *e)
     }
 }
 
-void Dialog::paintEvent(QPaintEvent *e)
+void Dialog::paintEvent(QPaintEvent *)
 {
     scene->clear();
 
@@ -158,4 +220,9 @@ void Dialog::paintEvent(QPaintEvent *e)
     }
 
     drawGrid(lvl->getRows(), lvl->getCols());
+}
+
+void Dialog::on_startGame_clicked()
+{
+    changeState(RUN);
 }

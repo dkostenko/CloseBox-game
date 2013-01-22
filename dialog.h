@@ -18,13 +18,23 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
+    QTimer *timer;
+
+public slots:
+    void Tic();
+
+private slots:
+    void on_startGame_clicked();
 
 private:
+    enum State { INSTRUCTION, RUN, PAUSED, FINISHED, LOST };
+    State currentState;
     int currentLvl;
     Level * lvl;
     Ui::Dialog *ui;
     QGraphicsScene *scene;
     QGraphicsRectItem *rectangle;
+    void changeState(State state);
     void drawGrid(int rows, int cols);
     void drawBigBox(int row, int col, int type, bool main);
     void drawSmallBox(int row, int col, int type, bool main);

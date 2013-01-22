@@ -1,6 +1,8 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+#include <QtCore>
+
 class Level
 {
 public:
@@ -13,7 +15,8 @@ public:
     void setBloc(int row, int col, int value);
     int getRows();
     int getCols();
-    int getSteps();
+    int getTime();
+    QString getTimerText();
     bool move(Direction direction);
     bool isFinished();
 
@@ -21,9 +24,9 @@ private:
     int rows;
     int cols;
     int blocs[20][3];
-    int steps;
     int inBig;
     int inSmall;
+    int time;
 
     bool chkDirection(int newRow, int newCol, Direction direction);
 };

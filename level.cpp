@@ -9,25 +9,24 @@ Level::Level(int level)
     switch(level)
     {
     case 1:
-        steps = 10;
         rows = 3;
         cols = 3;
+        time = 100;
         blocs_count = 3;
         blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
         blocs[1][0] = 1;    blocs[1][1] = 0;    blocs[1][2] = SMALL_TOP;
         blocs[2][0] = 1;    blocs[2][1] = 2;    blocs[2][2] = BIG_LEFT;
         break;
     case 2:
-        steps = 10;
         rows = 3;
         cols = 3;
+        time = 100;
         blocs_count = 3;
         blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
         blocs[1][0] = 1;    blocs[1][1] = 2;    blocs[1][2] = SMALL_LEFT;
         blocs[2][0] = 1;    blocs[2][1] = 0;    blocs[2][2] = BIG_TOP;
         break;
     case 3:
-        steps = 10;
         rows = 3;
         cols = 3;
         blocs_count = 4;
@@ -36,8 +35,17 @@ Level::Level(int level)
         blocs[2][0] = 1;    blocs[2][1] = 1;    blocs[2][2] = BIG_TOP;
         blocs[3][0] = 0;    blocs[3][1] = 2;    blocs[3][2] = BIG_LEFT;
         break;
+    case 4:
+        rows = 3;
+        cols = 3;
+        blocs_count = 5;
+        blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
+        blocs[1][0] = 1;    blocs[1][1] = 0;    blocs[1][2] = SMALL_RIGHT;
+        blocs[2][0] = 1;    blocs[2][1] = 2;    blocs[2][2] = BIG_BOTTOM;
+        blocs[3][0] = 0;    blocs[3][1] = 1;    blocs[3][2] = BIG_BOTTOM;
+        blocs[3][0] = 2;    blocs[3][1] = 1;    blocs[3][2] = BIG_TOP;
+        break;
     case 10:
-        steps = 50;
         rows = 5;
         cols = 5;
         blocs_count = 11;
@@ -236,6 +244,13 @@ bool Level::isFinished()
     return false;
 }
 
+QString Level::getTimerText()
+{
+    QString q;
+    q.setNum(--time);
+    return "Осталось: " + q + " сек.";
+}
+
 
 // Properties
 int Level::getBloc(int row, int col)
@@ -258,7 +273,7 @@ int Level::getRows()
     return rows;
 }
 
-int Level::getSteps()
+int Level::getTime()
 {
-    return steps;
+    return time;
 }
