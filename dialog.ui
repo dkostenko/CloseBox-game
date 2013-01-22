@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Close box</string>
   </property>
   <widget class="QLabel" name="info">
    <property name="geometry">

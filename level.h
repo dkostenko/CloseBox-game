@@ -11,6 +11,7 @@ public:
     enum BlocTypes {BALL, WALL,
                     BIG_TOP, BIG_RIGHT, BIG_BOTTOM, BIG_LEFT,
                     SMALL_TOP, SMALL_RIGHT, SMALL_BOTTOM, SMALL_LEFT };
+
     int getBloc(int row, int col);
     void setBloc(int row, int col, int value);
     int getRows();
@@ -30,8 +31,8 @@ private:
     int inBig;
     int inSmall;
     int time;
-    bool setCurrentMap();
 
+    bool setCurrentMap();
     bool chkDirection(int newRow, int newCol, Direction direction);
 };
 
