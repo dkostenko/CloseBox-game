@@ -1,17 +1,28 @@
 #include "level.h"
 
-Level::Level(int level)
+Level::Level()
 {
-    int blocs_count;
+    setCurrentMap();
+}
+
+bool Level::next()
+{
+    return setCurrentMap();
+}
+
+bool Level::setCurrentMap()
+{
     inBig = -1;
     inSmall = -1;
 
-    switch(level)
+    int blocs_count = 0;
+
+    switch(++currentLevel)
     {
     case 1:
         rows = 3;
         cols = 3;
-        time = 100;
+        time = 10;
         blocs_count = 3;
         blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
         blocs[1][0] = 1;    blocs[1][1] = 0;    blocs[1][2] = SMALL_TOP;
@@ -20,15 +31,16 @@ Level::Level(int level)
     case 2:
         rows = 3;
         cols = 3;
-        time = 100;
+        time = 20;
         blocs_count = 3;
         blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
         blocs[1][0] = 1;    blocs[1][1] = 2;    blocs[1][2] = SMALL_LEFT;
         blocs[2][0] = 1;    blocs[2][1] = 0;    blocs[2][2] = BIG_TOP;
         break;
-    case 3:
+    case 30:
         rows = 3;
         cols = 3;
+        time = 100;
         blocs_count = 4;
         blocs[0][0] = 0;    blocs[0][1] = 0;    blocs[0][2] = BALL;
         blocs[1][0] = 2;    blocs[1][1] = 0;    blocs[1][2] = SMALL_TOP;
@@ -38,6 +50,7 @@ Level::Level(int level)
     case 4:
         rows = 3;
         cols = 3;
+        time = 100;
         blocs_count = 5;
         blocs[0][0] = 1;    blocs[0][1] = 1;    blocs[0][2] = BALL;
         blocs[1][0] = 1;    blocs[1][1] = 0;    blocs[1][2] = SMALL_RIGHT;
@@ -48,6 +61,7 @@ Level::Level(int level)
     case 10:
         rows = 5;
         cols = 5;
+        time = 100;
         blocs_count = 11;
         blocs[0][0] = 4;    blocs[0][1] = 2;    blocs[0][2] = BALL;
         blocs[1][0] = 2;    blocs[1][1] = 1;    blocs[1][2] = SMALL_LEFT;
@@ -66,6 +80,9 @@ Level::Level(int level)
     {
         blocs[i][0] = -1;   blocs[i][1] = -1;   blocs[i][2] = 0;
     }
+
+    if(blocs_count == 0) return false;
+    return true;
 }
 
 bool Level::move(Direction direction)
@@ -249,6 +266,13 @@ QString Level::getTimerText()
     QString q;
     q.setNum(--time);
     return "Осталось: " + q + " сек.";
+}
+
+QString Level::getCurrentLevelText()
+{
+    QString q;
+    q.setNum(currentLevel);
+    return "Уровень: " + q;
 }
 
 

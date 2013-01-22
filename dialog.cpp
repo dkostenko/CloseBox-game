@@ -12,14 +12,11 @@ Dialog::Dialog(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(Tic()));
 
     timer->start(1000);
-    currentLvl = 1;
-    lvl = new Level(currentLvl);
+    lvl = new Level();
     scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
 
-    QString q;
-    q.setNum(currentLvl);
-    ui->currentLvl->setText("Уровень: " + q);
+    ui->currentLvl->setText(lvl->getCurrentLevelText());
     ui->timeCount->setText(lvl->getTimerText());
 
     changeState(INSTRUCTION);
@@ -57,6 +54,20 @@ void Dialog::changeState(State state)
         ui->currentLvl->setVisible(false);
         ui->timeCount->setVisible(false);
         break;
+    case GAME_FINISHED:
+        ui->info->setText("Вы победили!");
+        ui->graphicsView->setVisible(false);
+        ui->info->setVisible(true);
+        ui->currentLvl->setVisible(false);
+        ui->timeCount->setVisible(false);
+        break;
+    case GAME_LOST:
+        ui->info->setText("Вы проиграли!");
+        ui->graphicsView->setVisible(false);
+        ui->info->setVisible(true);
+        ui->currentLvl->setVisible(false);
+        ui->timeCount->setVisible(false);
+        break;
     }
 }
 
@@ -64,14 +75,8 @@ void Dialog::Tic()
 {
     if(currentState == RUN)
     {
-        if(lvl->getTime() < 0)
-        {
-            //проиграл
-        }
-        else
-        {
-           ui->timeCount->setText(lvl->getTimerText());
-        }
+        if(lvl->getTime() < 1) changeState(GAME_LOST);
+        else ui->timeCount->setText(lvl->getTimerText());
     }
 }
 
@@ -183,8 +188,17 @@ void Dialog::keyPressEvent(QKeyEvent *e)
     {
         if(lvl->isFinished())
         {
-            qDebug() << "ВЫИГРАЛ!";
-            lvl = new Level(++currentLvl);
+            if(lvl->next())
+            {
+                ui->currentLvl->setText(lvl->getCurrentLevelText());
+                ui->timeCount->setText(lvl->getTimerText());
+            }
+            else
+            {
+                changeState(GAME_FINISHED);
+                return;
+            }
+
         }
         this->repaint();
     }

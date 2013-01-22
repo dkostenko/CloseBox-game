@@ -27,9 +27,8 @@ private slots:
     void on_startGame_clicked();
 
 private:
-    enum State { INSTRUCTION, RUN, PAUSED, FINISHED, LOST };
+    enum State { INSTRUCTION, RUN, PAUSED, GAME_FINISHED, GAME_LOST };
     State currentState;
-    int currentLvl;
     Level * lvl;
     Ui::Dialog *ui;
     QGraphicsScene *scene;

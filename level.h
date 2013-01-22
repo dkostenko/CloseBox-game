@@ -6,7 +6,7 @@
 class Level
 {
 public:
-    Level(int level);
+    Level();
     enum Direction { UP, RIGHT, DOWN, LEFT };
     enum BlocTypes {BALL, WALL,
                     BIG_TOP, BIG_RIGHT, BIG_BOTTOM, BIG_LEFT,
@@ -16,17 +16,21 @@ public:
     int getRows();
     int getCols();
     int getTime();
+    QString getCurrentLevelText();
     QString getTimerText();
     bool move(Direction direction);
     bool isFinished();
+    bool next();
 
 private:
+    int currentLevel;
     int rows;
     int cols;
     int blocs[20][3];
     int inBig;
     int inSmall;
     int time;
+    bool setCurrentMap();
 
     bool chkDirection(int newRow, int newCol, Direction direction);
 };
